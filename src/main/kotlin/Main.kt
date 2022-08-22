@@ -17,8 +17,7 @@ val RequestProcessor = Processor { request ->
 }
 
 fun main() {
-    val loggingProcessor = LoggingProcessor(RequestProcessor)
-    val cachingProcessor = CachingProcessor(loggingProcessor)
+    val cachingProcessor = CachingProcessor(LoggingProcessor(RequestProcessor))
 
     val request = Request("https://endpoint")
     cachingProcessor(request)
