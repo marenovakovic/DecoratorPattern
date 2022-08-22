@@ -4,12 +4,12 @@ data class Response(val body: String)
 fun interface Processor : (Request) -> Response
 
 val LoggingProcessor = { processor: Processor ->
-    { request: Request -> processor(request).also(::println) }
+    Processor { request: Request -> processor(request).also(::println) }
 }
 
 private val cache = mutableMapOf<Request, Response>()
 val CachingProcessor = { processor: Processor ->
-    { request: Request -> processor(request).also { cache[request] = it } }
+    Processor { request: Request -> processor(request).also { cache[request] = it } }
 }
 
 val RequestProcessor = Processor { request ->
